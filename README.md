@@ -2,7 +2,7 @@
 
 ## Installation
 
-`composer require mov/php-bluesky`
+`composer require mov/php-bluesky:dev-main`
 
 ## Basic Usage
 
