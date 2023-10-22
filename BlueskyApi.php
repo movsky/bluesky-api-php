@@ -1,6 +1,6 @@
 <?php
 
-namespace Mov\BlueskyApiClient;
+namespace Mov\BlueskyApi;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -9,7 +9,7 @@ use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-class BlueskyApiClient {
+class BlueskyApi {
 
     const APP_BSKY_FEED_POST = "app.bsky.feed.post";
 

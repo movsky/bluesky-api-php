@@ -1,12 +1,13 @@
 {
-    "name": "mov/bluesky-api-client-php",
-    "description": "A simple api client for bluesky",
+    "name": "mov/php-bluesky",
+    "version": "0.1.0",
+    "description": "A simple php api client for bluesky",
     "require": {
         "symfony/http-client": "^6.3"
     },
     "autoload": {
         "psr-4": {
-            "Mov\\BlueskyApiClient\\": ""
+            "Mov\\BlueskyApi\\": ""
         }
     }
 }
