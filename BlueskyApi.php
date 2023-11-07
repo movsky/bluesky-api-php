@@ -8,10 +8,13 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 
 class BlueskyApi {
 
     const APP_BSKY_FEED_POST = "app.bsky.feed.post";
+    const COM_ATPROTO_REPO_UPLOAD_CREATERECORD = "com.atproto.repo.createRecord";
+    const COM_ATPROTO_REPO_UPLOAD_BLOB = "com.atproto.repo.uploadBlob";
 
     private HttpClientInterface $httpClient;
 
@@ -79,7 +82,7 @@ class BlueskyApi {
 
         $this->httpClient->request(
             'POST',
-            'https://bsky.social/xrpc/com.atproto.repo.createRecord',
+            'https://bsky.social/xrpc/' . self::COM_ATPROTO_REPO_UPLOAD_CREATERECORD,
             [
                 'headers' => [
                     'Authorization: Bearer ' . $this->session['accessJwt'],
@@ -87,5 +90,28 @@ class BlueskyApi {
                 'body' => json_encode($payload)
             ]
         );
+    }
+
+    /**
+     * @throws TransportExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ClientExceptionInterface
+     */
+    public function uploadBlob($blob, string $mimeType): string
+    {
+        $response = $this->httpClient->request(
+            'POST',
+            'https://bsky.social/xrpc/' . self::COM_ATPROTO_REPO_UPLOAD_BLOB,
+            [
+                'headers' => [
+                    'Authorization: Bearer ' . $this->session['accessJwt'],
+                    'Content-Type: ' . $mimeType,
+                ],
+                'body' => $blob
+            ]
+        );
+
+        return $response->getContent();
     }
 }
