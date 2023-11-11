@@ -64,7 +64,7 @@ class BlueskyApi {
     /**
      * @throws TransportExceptionInterface
      */
-    public function post(string $text, array $embed = [], array $lang = ['de']): void
+    public function post(string $text, array $embed = [], array $lang = ['en']): void
     {
         $post = [
             '$type' => self::APP_BSKY_FEED_POST,
