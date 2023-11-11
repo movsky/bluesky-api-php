@@ -74,10 +74,13 @@ class BlueskyApi {
             'langs' => $lang,
         ];
 
+        $urls = $this->parseUrls($text);
+        $links = $this->generateLinks($urls);
+
         $payload = [
             'repo' => $this->session["did"],
             'collection' => self::APP_BSKY_FEED_POST,
-            'record' => $post,
+            'record' => array_merge($post, $links),
         ];
 
         $this->httpClient->request(
@@ -114,4 +117,58 @@ class BlueskyApi {
 
         return $response->getContent();
     }
+
+    private function parseUrls($text): array
+    {
+
+        $regex = '/(https?:\/\/[^\s]+)/';
+        preg_match_all($regex, $text, $matches, PREG_OFFSET_CAPTURE);
+
+        $urlData = [];
+
+        foreach ($matches[0] as $match) {
+            $url = $match[0];
+            $start = $match[1];
+            $end = $start + strlen($url);
+
+            $urlData[] = array(
+                'start' => $start,
+                'end' => $end,
+                'url' => $url,
+            );
+        }
+
+        return $urlData;
+    }
+
+    private function generateLinks(array $urls): array
+    {
+        $links = [];
+
+        if (!empty($urls)){
+            foreach ($urls as $url) {
+                $link = [
+                    "index" => [
+                        "byteStart" => $url['start'],
+                        "byteEnd" => $url['end'],
+                    ],
+                    "features" => [
+                        [
+                            '$type' => "app.bsky.richtext.facet#link",
+                            'uri' => $url['url'],
+                        ],
+                    ],
+                ];
+
+                $links[] = $link;
+            }
+            $links = [
+                'facets' =>
+                    $links,
+            ];
+        }
+
+        return $links;
+    }
+
 }
