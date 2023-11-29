@@ -1,6 +1,6 @@
 {
     "name": "mov/php-bluesky",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A simple php api client for bluesky",
     "require": {
         "symfony/http-client": "^6.3"
