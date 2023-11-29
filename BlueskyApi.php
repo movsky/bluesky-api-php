@@ -70,9 +70,12 @@ class BlueskyApi {
             '$type' => self::APP_BSKY_FEED_POST,
             'text' => $text,
             'createdAt' => date('c'),
-            'embed' => $embed,
             'langs' => $lang,
         ];
+
+        if (!empty($embed)) {
+            $post['embed'] = $embed;
+        }
 
         $urls = $this->parseUrls($text);
         $links = $this->generateLinks($urls);
